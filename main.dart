@@ -1,70 +1,57 @@
+import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
-
-class MyAppBar extends StatelessWidget {
-  MyAppBar({this.title});
-
-  // Los campos en una subclase de Widgets siempre están marcados como "final".
-
-  final Widget title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 56.0, // en píxeles lógicos
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      decoration: BoxDecoration(color: Colors.blue[500]),
-      // Row es un diseño horizontal y lineal.
-      child: Row(
-        // <Widget> es el tipo de artículos en la lista.
-        children: <Widget>[
-          IconButton(
-            icon: Icon(Icons.menu),
-            tooltip: 'Navigation menu',
-            onPressed: null, // null desactiva el botón
-          ),
-          // Expanded expande a su hijo para rellenar el espacio disponible.
-          Expanded(
-            child: title,
-          ),
-          IconButton(
-            icon: Icon(Icons.search),
-            tooltip: 'Search',
-            onPressed: null,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class MyScaffold extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    // Material es una hoja de papel conceptual en la que aparece la UI.
-    return Material(
-      // Column es un diseño vertical y lineal.
-      child: Column(
-        children: <Widget>[
-          MyAppBar(
-            title: Text(
-              'Example title',
-              style: Theme.of(context).primaryTextTheme.title,
-            ),
-          ),
-          Expanded(
-            child: Center(
-              child: Text('Hello, world!'),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(MaterialApp(
-    title: 'My app', // utilizado por el conmutador de tareas del sistema operativo
-    home: MyScaffold(),
-  ));
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (context) => MyAppState(),
+      child: MaterialApp(
+        title: 'Welcome to Flutter',
+        theme: ThemeData(
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
+        ),
+        home: MyHomePage(),
+      ),
+    );
+  }
+}
+
+class MyAppState extends ChangeNotifier {
+  var current = WordPair.random();
+}
+
+class MyHomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    var appState = context.watch<MyAppState>();
+
+    return Scaffold(
+      body: Column(
+        children:[
+          Text('Welcome to Flutter',textAlign: TextAlign.center,),
+          Text(appState.current.asLowerCase),
+          Text('Hola dominic',textAlign: TextAlign.center,style: TextStyle(
+          fontSize: 20.0),),
+          Text(''),
+          Row( ),
+          Column( ),
+          Stack( ),
+          Container( ),
+        ],
+         
+      ),
+      
+    ); 
+    
+  }
+  
 }
